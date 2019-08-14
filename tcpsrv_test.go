@@ -1,30 +1,31 @@
-package tcp_server
+package tcpsrv
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
 	"net"
 	"testing"
 	"time"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func buildTestServer() *server {
-	return New("localhost:9999")
+	return NewServer("localhost:9999")
 }
 
 func Test_accepting_new_client_callback(t *testing.T) {
 	server := buildTestServer()
 
 	var messageReceived bool
-	var messageText string
+	var bytesRead []byte
 	var newClient bool
 	var connectinClosed bool
 
 	server.OnNewClient(func(c *Client) {
 		newClient = true
 	})
-	server.OnNewMessage(func(c *Client, message string) {
+	server.OnNewMessage(func(c *Client, bytes []byte) {
 		messageReceived = true
-		messageText = message
+		bytesRead = bytes
 	})
 	server.OnClientConnectionClosed(func(c *Client, err error) {
 		connectinClosed = true
@@ -35,7 +36,7 @@ func Test_accepting_new_client_callback(t *testing.T) {
 	// If test fails - increase this value
 	time.Sleep(10 * time.Millisecond)
 
-	conn, err := net.Dial("tcp", "localhost:9999")
+	conn, err := net.Dial("tcp", "localhost:32001")
 	if err != nil {
 		t.Fatal("Failed to connect to test server")
 	}
