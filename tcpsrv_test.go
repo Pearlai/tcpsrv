@@ -1,6 +1,7 @@
 package tcpsrv
 
 import (
+	"context"
 	"net"
 	"testing"
 	"time"
@@ -9,7 +10,7 @@ import (
 )
 
 func buildTestServer() *server {
-	return NewServer("localhost:9999")
+	return NewServer(context.Background(), "localhost:9999")
 }
 
 func Test_accepting_new_client_callback(t *testing.T) {
@@ -47,7 +48,7 @@ func Test_accepting_new_client_callback(t *testing.T) {
 	time.Sleep(10 * time.Millisecond)
 
 	Convey("Messages should be equal", t, func() {
-		So(messageText, ShouldEqual, "Test message\n")
+		So(bytesRead, ShouldEqual, "Test message\n")
 	})
 	Convey("It should receive new client callback", t, func() {
 		So(newClient, ShouldEqual, true)
