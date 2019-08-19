@@ -11,6 +11,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+//trying to get files in repo...
+
 // server is a TCP Server struct
 // Hold the address, config and callback functions for clients
 type server struct {

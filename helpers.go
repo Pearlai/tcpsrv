@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+//trying to get missing changes...
+
 // GetEnv gets the environment variable if the key is found else returns the fallback value
 func GetEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
